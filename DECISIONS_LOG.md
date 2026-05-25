@@ -56,3 +56,41 @@
 - **Justificación**: Permite recordar la preferencia del usuario a lo largo de las sesiones sin necesidad de cookies de sesión adicionales, optimizando la experiencia de usuario de manera sencilla.
 
 - **Consecuencias**: El script `app.js` leerá esta llave al cargar para determinar si inyecta o no los scripts de Google Analytics/Meta Pixel de forma dinámica.
+
+---
+
+### ADR-004: Integración Directa con la API REST de Supabase en Cliente
+- **Fecha**: 25-May-2026
+
+- **Capa**: Capa de Datos / Backend Serverless
+
+- **Responsables**: Software Architect / Tech Lead
+
+- **Estado**: Aceptado
+
+- **Contexto**: Se requiere persistir los registros de los participantes (tanto tradicionales como vía Google) en una base de datos Supabase, sin introducir la complejidad y costo de un servidor backend intermedio.
+
+- **Decisión**: Realizar peticiones HTTP `POST` directas utilizando la API REST nativa autogenerada de Supabase (`/rest/v1/registrados`) mediante la función nativa `fetch` en el navegador.
+
+- **Justificación**: Evita descargar librerías SDK pesadas en el cliente, manteniendo el peso del script en pocos kilobytes y mejorando la velocidad de carga (PageSpeed). El acceso público de inserción se asegura habilitando Row Level Security (RLS) en Postgres.
+
+- **Consecuencias**: El anon-key de Supabase se expone públicamente en el frontend, lo cual es seguro puesto que RLS bloquea cualquier permiso de lectura (`SELECT`) o modificación (`UPDATE`/`DELETE`) a usuarios anónimos.
+
+---
+
+### ADR-005: Despliegue en Vercel con Clean URLs
+- **Fecha**: 25-May-2026
+
+- **Capa**: DevOps / Infraestructura de Despliegue
+
+- **Responsables**: DevOps Engineer
+
+- **Estado**: Aceptado
+
+- **Contexto**: El sitio cuenta con múltiples páginas internas (`politica-privacidad.html`, `politica-cookies.html`). Mostrar la extensión `.html` en la barra del navegador reduce la estética premium y profesional del proyecto.
+
+- **Decisión**: Configurar un archivo `vercel.json` en la raíz del repositorio habilitando la opción `"cleanUrls": true` y configurando reglas de enrutamiento limpias para los documentos legales.
+
+- **Justificación**: Vercel provee una red de entrega de contenido (CDN) global y optimizada de forma gratuita, ideal para hosting de estáticos.
+
+- **Consecuencias**: Toda navegación a políticas se resolverá con URLs limpias (ej. `/politica-privacidad` en lugar de `/politica-privacidad.html`).

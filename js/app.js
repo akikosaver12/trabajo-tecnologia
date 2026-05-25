@@ -1,8 +1,16 @@
 /**
  * =======================================================
  * LOGICA DEL FRONTEND: REGISTRO WEBINAR & GOOGLE SIGN-IN
+ * INTEGRADO CON SUPABASE REST API (SERVERLESS)
  * =======================================================
  */
+
+// Configuración de Credenciales de Supabase
+// Puedes configurar estas variables en un script previo o reemplazarlas con tus datos reales de Supabase.
+const SUPABASE_CONFIG = {
+    url: window.ENV?.SUPABASE_URL || "https://YOUR_SUPABASE_PROJECT_ID.supabase.co",
+    anonKey: window.ENV?.SUPABASE_ANON_KEY || "YOUR_SUPABASE_ANON_KEY"
+};
 
 document.addEventListener("DOMContentLoaded", () => {
     // Inicializar elementos de la interfaz
@@ -68,7 +76,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // 2. VALIDACIÓN DEL FORMULARIO TRADICIONAL
+    // 2. PERSISTENCIA EN SUPABASE (REST API)
+    // ==========================================
+
+    const saveToSupabase = async (data) => {
+        // Validación de configuración por defecto
+        if (SUPABASE_CONFIG.url.includes("YOUR_SUPABASE_PROJECT_ID") || !SUPABASE_CONFIG.anonKey || SUPABASE_CONFIG.anonKey === "YOUR_SUPABASE_ANON_KEY") {
+            console.warn("[Supabase Warning] Credenciales no configuradas. Simulando persistencia local exitosa.");
+            // Retornamos una promesa resuelta para simular éxito en entorno local sin credenciales
+            return new Promise((resolve) => setTimeout(resolve, 800));
+        }
+
+        try {
+            const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/registrados`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_CONFIG.anonKey,
+                    "Authorization": `Bearer ${SUPABASE_CONFIG.anonKey}`,
+                    "Prefer": "return=minimal"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en servidor Supabase: ${response.statusText}`);
+            }
+
+            console.log("[Supabase] Datos del participante guardados exitosamente.");
+            return true;
+        } catch (error) {
+            console.error("[Supabase Error] Error de comunicación con la base de datos:", error);
+            throw error;
+        }
+    };
+
+
+    // ==========================================
+    // 3. VALIDACIÓN DEL FORMULARIO TRADICIONAL
     // ==========================================
 
     const validateEmail = (email) => {
@@ -145,33 +190,46 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = true;
             submitBtn.textContent = "Procesando registro...";
 
-            setTimeout(() => {
-                // Sanitizar y mapear valores del usuario a la UI de éxito
-                const sanitizedName = sanitizeHTML(nameInput.value.trim());
-                const sanitizedEmail = sanitizeHTML(emailInput.value.trim());
+            const registrationData = {
+                nombre: nameInput.value.trim(),
+                email: emailInput.value.trim(),
+                celular: phoneInput.value.trim(),
+                metodo_registro: "traditional"
+            };
 
-                userDisplayName.textContent = sanitizedName;
-                userDisplayEmail.textContent = sanitizedEmail;
-                userAvatar.src = "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"; // Avatar por defecto
-                registrationMethodBadge.textContent = "Registro Tradicional";
-                registrationMethodBadge.style.backgroundColor = "rgba(6, 182, 212, 0.15)";
-                registrationMethodBadge.style.color = "var(--color-secondary)";
-                registrationMethodBadge.style.borderColor = "rgba(6, 182, 212, 0.3)";
+            // Intentar persistir en Supabase
+            saveToSupabase(registrationData)
+                .then(() => {
+                    // Sanitizar y mapear valores del usuario a la UI de éxito
+                    const sanitizedName = sanitizeHTML(registrationData.nombre);
+                    const sanitizedEmail = sanitizeHTML(registrationData.email);
 
-                // Intercambio de tarjetas
-                registrationCard.classList.add("hidden");
-                successCard.classList.remove("hidden");
+                    userDisplayName.textContent = sanitizedName;
+                    userDisplayEmail.textContent = sanitizedEmail;
+                    userAvatar.src = "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"; // Avatar por defecto
+                    registrationMethodBadge.textContent = "Registro Tradicional";
+                    registrationMethodBadge.style.backgroundColor = "rgba(6, 182, 212, 0.15)";
+                    registrationMethodBadge.style.color = "var(--color-secondary)";
+                    registrationMethodBadge.style.borderColor = "rgba(6, 182, 212, 0.3)";
 
-                // Restablecer botón
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalText;
-                webinarForm.reset();
-            }, 1000);
+                    // Intercambio de tarjetas
+                    registrationCard.classList.add("hidden");
+                    successCard.classList.remove("hidden");
+                    webinarForm.reset();
+                })
+                .catch(() => {
+                    alert("Hubo un error de conexión al procesar el registro en la base de datos. Por favor, intenta de nuevo.");
+                })
+                .finally(() => {
+                    // Restablecer botón
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                });
         }
     });
 
     // ==========================================
-    // 3. INTEGRACIÓN CON GOOGLE SIGN-IN API
+    // 4. INTEGRACIÓN CON GOOGLE SIGN-IN API
     // ==========================================
 
     window.handleCredentialResponse = (response) => {
@@ -191,21 +249,44 @@ document.addEventListener("DOMContentLoaded", () => {
             // Sanitizar datos del perfil de Google
             const userName = sanitizeHTML(profile.name);
             const userEmail = sanitizeHTML(profile.email);
-            const userPicUrl = profile.picture; // URL directa segura de Google
+            const userPicUrl = profile.picture;
 
-            // Renderizar los datos en el contenedor de perfil exitoso
-            userDisplayName.textContent = userName;
-            userDisplayEmail.textContent = userEmail;
-            userAvatar.src = userPicUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
-            
-            registrationMethodBadge.textContent = "Cuenta de Google";
-            registrationMethodBadge.style.backgroundColor = "rgba(99, 102, 241, 0.15)";
-            registrationMethodBadge.style.color = "var(--color-primary)";
-            registrationMethodBadge.style.borderColor = "rgba(99, 102, 241, 0.3)";
+            // Datos para la persistencia en Supabase
+            const registrationData = {
+                nombre: profile.name,
+                email: profile.email,
+                celular: null, // No provisto por Google Sign-In básico
+                metodo_registro: "google"
+            };
 
-            // Intercambiar tarjetas en la interfaz
-            registrationCard.classList.add("hidden");
-            successCard.classList.remove("hidden");
+            // Actualizar estado visual
+            const oauthNotice = document.querySelector(".google-legal-notice");
+            const originalNoticeText = oauthNotice.innerHTML;
+            oauthNotice.innerHTML = "<strong>Guardando registro en base de datos...</strong>";
+
+            // Guardar en Supabase
+            saveToSupabase(registrationData)
+                .then(() => {
+                    // Renderizar los datos en el contenedor de perfil exitoso
+                    userDisplayName.textContent = userName;
+                    userDisplayEmail.textContent = userEmail;
+                    userAvatar.src = userPicUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+                    
+                    registrationMethodBadge.textContent = "Cuenta de Google";
+                    registrationMethodBadge.style.backgroundColor = "rgba(99, 102, 241, 0.15)";
+                    registrationMethodBadge.style.color = "var(--color-primary)";
+                    registrationMethodBadge.style.borderColor = "rgba(99, 102, 241, 0.3)";
+
+                    // Intercambiar tarjetas en la interfaz
+                    registrationCard.classList.add("hidden");
+                    successCard.classList.remove("hidden");
+                })
+                .catch(() => {
+                    alert("Error de conexión al persistir el registro de Google en Supabase.");
+                })
+                .finally(() => {
+                    oauthNotice.innerHTML = originalNoticeText;
+                });
 
         } catch (error) {
             console.error("[Google OAuth] Error al decodificar la credencial de Google:", error);
@@ -245,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeGoogleSignIn();
 
     // ==========================================
-    // 4. RESETEAR FORMULARIO (OTRO REGISTRO)
+    // 5. RESETEAR FORMULARIO (OTRO REGISTRO)
     // ==========================================
     
     btnReset.addEventListener("click", () => {

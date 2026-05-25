@@ -5,6 +5,7 @@
 - **Rendimiento**: Lograr tiempos de respuesta rápidos y bajas tasas de rebote al evitar dependencias de frameworks JS del lado del cliente.
 - **Mantenibilidad**: Estructura de código limpia y modular usando variables de diseño CSS y modularización de JS.
 - **Portabilidad**: Facilidad de despliegue en cualquier servidor de estáticos (Vercel, Netlify, GitHub Pages, Firebase Hosting).
+- **Seguridad Serverless**: Persistencia directa a base de datos de manera descentralizada mediante Row Level Security (RLS) en el cliente.
 
 ## 2. Stack Tecnológico
 
@@ -12,6 +13,8 @@
 - **Estilos (CSS)**: CSS3 Vainilla con Custom Properties (Tokens) y Flexbox/Grid para diseño responsivo.
 - **Lógica (JS)**: JavaScript Vainilla (ES6) para validaciones y control de cookies.
 - **SDKs Externos**: Google Identity Services Client Library (`https://accounts.google.com/gsi/client`) para la autenticación única (SSO).
+- **Capa de Datos**: Supabase (PostgreSQL) con acceso mediante API REST auto-generada nativa.
+- **Capa de Despliegue**: Vercel (Edge CDN con Clean URLs configuradas).
 
 ## 3. Estructura de Directorios
 
@@ -22,10 +25,12 @@ solucion-de-problemas/
   ├── index.html                  # Página principal de la Landing Page
   ├── politica-privacidad.html    # Política de Privacidad de Datos (Ley 1581)
   ├── politica-cookies.html       # Política de Cookies
+  ├── vercel.json                 # Configuración de enrutamiento y clean URLs en Vercel
+  ├── supabase-schema.sql         # Script DDL de base de datos e índices
   ├── css/
   │   └── style.css               # Hoja de estilos global y diseño responsive
   ├── js/
-  │   └── app.js                  # Lógica del formulario, cookies y Google GIS API
+  │   └── app.js                  # Lógica del formulario, cookies, Google GIS y Supabase REST
   └── assets/                     # Activos estáticos
       ├── logos/                  # Logos (Google, marca del evento)
       ├── icons/                  # Iconos SVG de soporte
@@ -33,12 +38,16 @@ solucion-de-problemas/
       └── fonts/                  # Fuentes locales opcionales
 ```
 
-## 4. Patrones de Diseño y Flujo de Autenticación
+## 4. Patrones de Diseño y Flujos de Datos
 
-El flujo de registro mediante Google Sign-In sigue los siguientes pasos:
-
+### A. Flujo de Autenticación de Google Sign-In
 1. **Carga del SDK**: La biblioteca `gsi/client` se carga de forma asíncrona.
 2. **Inicialización**: Se ejecuta `google.accounts.id.initialize` con el Client ID configurado y una función callback de manejo de credenciales.
 3. **Renderizado del Botón**: Se renderiza el botón mediante `google.accounts.id.renderButton` en el contenedor HTML asignado.
 4. **Respuesta (JWT)**: Cuando el usuario se autentica exitosamente, Google devuelve un JSON Web Token (JWT) firmado en la credencial.
 5. **Procesamiento de Credenciales**: El callback de `app.js` recibe el JWT, lo decodifica de forma segura en el cliente (extrayendo el payload codificado en Base64) y muestra los datos del usuario (Nombre, Email, Foto de perfil) en una tarjeta de éxito dinámica.
+
+### B. Flujo de Persistencia de Supabase (REST Client)
+1. **Petición HTTP (POST)**: Al completar la validación (formulario tradicional o Google), `js/app.js` realiza un `fetch` hacia el endpoint `/rest/v1/registrados` de Supabase.
+2. **Headers de Autenticación**: Se incluye la clave pública `apikey` y el header `Authorization: Bearer <anonKey>`.
+3. **Seguridad (RLS)**: El motor de políticas PostgreSQL en Supabase valida la operación de inserción pública, bloqueando cualquier intento anónimo de lectura del listado.

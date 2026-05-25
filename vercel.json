@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "routes": [
+    { "src": "/politica-privacidad", "dest": "/politica-privacidad.html" },
+    { "src": "/politica-cookies", "dest": "/politica-cookies.html" }
+  ]
+}

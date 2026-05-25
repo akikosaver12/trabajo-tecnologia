@@ -8,24 +8,29 @@
     --color-bg-card: rgba(30, 41, 59, 0.45);
     --color-border-card: rgba(255, 255, 255, 0.08);
     --color-border-focus: #06B6D4;
-    
-    --color-primary: #6366F1;       /* Indigo */
+
+    --color-primary: #6366F1;
+    /* Indigo */
     --color-primary-hover: #4F46E5;
-    --color-secondary: #06B6D4;     /* Cyan */
+    --color-secondary: #06B6D4;
+    /* Cyan */
     --color-secondary-hover: #0891B2;
-    --color-accent: #8B5CF6;        /* Violet */
-    --color-success: #10B981;       /* Emerald */
-    --color-error: #EF4444;         /* Red */
-    
+    --color-accent: #8B5CF6;
+    /* Violet */
+    --color-success: #10B981;
+    /* Emerald */
+    --color-error: #EF4444;
+    /* Red */
+
     /* Colores de Texto */
     --color-text-main: #F8FAFC;
     --color-text-muted: #94A3B8;
     --color-text-dark: #0F172A;
-    
+
     /* Tipografía */
     --font-headings: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
-    
+
     /* Sombras y Efectos */
     --shadow-neon-primary: 0 0 15px rgba(99, 102, 241, 0.25);
     --shadow-neon-secondary: 0 0 15px rgba(6, 182, 212, 0.25);
@@ -37,7 +42,9 @@
    RESET & ESTILOS BASE
    ========================================== */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -51,7 +58,10 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-family: var(--font-headings);
     font-weight: 700;
     line-height: 1.2;
@@ -141,10 +151,12 @@ img {
         transform: scale(0.95);
         box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
     }
+
     70% {
         transform: scale(1);
         box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
     }
+
     100% {
         transform: scale(0.95);
         box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
@@ -217,7 +229,8 @@ img {
     margin-bottom: 2.5rem;
 }
 
-.features-box h2, .agenda-box h2 {
+.features-box h2,
+.agenda-box h2 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     color: var(--color-text-main);
@@ -676,7 +689,8 @@ img {
     }
 }
 
-.btn-cookie-primary, .btn-cookie-secondary {
+.btn-cookie-primary,
+.btn-cookie-secondary {
     font-family: var(--font-headings);
     font-size: 0.85rem;
     font-weight: 700;
@@ -689,7 +703,9 @@ img {
 }
 
 @media (min-width: 768px) {
-    .btn-cookie-primary, .btn-cookie-secondary {
+
+    .btn-cookie-primary,
+    .btn-cookie-secondary {
         width: auto;
     }
 }
