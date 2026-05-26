@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Regístrate gratis al Webinar 'Cómo Crear Agentes de Inteligencia Artificial en 2026'. Una masterclass práctica para profesionales, programadores y emprendedores.">
+    <meta name="description"
+        content="Regístrate gratis al Webinar 'Cómo Crear Agentes de Inteligencia Artificial en 2026'. Una masterclass práctica para profesionales, programadores y emprendedores.">
     <title>Masterclass Práctica: Creando Agentes de Inteligencia Artificial para tu Negocio</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
     <!-- Hojas de Estilos -->
     <link rel="stylesheet" href="css/style.css">
-    
+
     <!-- SDK de Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
     <!-- Encabezado Principal -->
     <header class="main-header">
@@ -38,7 +43,9 @@
                 <div class="pre-title">MASTERCLASS GRATUITA</div>
                 <h1>Construyendo el Futuro: Cómo Crear Agentes de IA en 2026</h1>
                 <p class="hero-desc">
-                    Descubre el proceso paso a paso para diseñar, desarrollar y desplegar agentes autónomos de Inteligencia Artificial que automaticen tareas operativas y optimicen los flujos de trabajo de tu negocio. 
+                    Descubre el proceso paso a paso para diseñar, desarrollar y desplegar agentes autónomos de
+                    Inteligencia Artificial que automaticen tareas operativas y optimicen los flujos de trabajo de tu
+                    negocio.
                 </p>
 
                 <!-- Beneficios -->
@@ -48,19 +55,22 @@
                         <li>
                             <span class="benefit-icon">✔</span>
                             <div>
-                                <strong>Arquitectura de Agentes:</strong> Comprende cómo estructurar la memoria, la toma de decisiones y las herramientas del agente.
+                                <strong>Arquitectura de Agentes:</strong> Comprende cómo estructurar la memoria, la toma
+                                de decisiones y las herramientas del agente.
                             </div>
                         </li>
                         <li>
                             <span class="benefit-icon">✔</span>
                             <div>
-                                <strong>Integración con LLMs:</strong> Conecta modelos de lenguaje avanzados para ejecutar tareas autónomas complejas.
+                                <strong>Integración con LLMs:</strong> Conecta modelos de lenguaje avanzados para
+                                ejecutar tareas autónomas complejas.
                             </div>
                         </li>
                         <li>
                             <span class="benefit-icon">✔</span>
                             <div>
-                                <strong>Casos Prácticos de Negocio:</strong> Automatización de flujos de soporte técnico, análisis de datos e interfaces conversacionales.
+                                <strong>Casos Prácticos de Negocio:</strong> Automatización de flujos de soporte
+                                técnico, análisis de datos e interfaces conversacionales.
                             </div>
                         </li>
                     </ul>
@@ -114,24 +124,28 @@
 
                         <div class="input-group">
                             <label for="reg-email">Correo Electrónico</label>
-                            <input type="email" id="reg-email" name="email" placeholder="Ej. juan.perez@email.com" required>
+                            <input type="email" id="reg-email" name="email" placeholder="Ej. juan.perez@email.com"
+                                required>
                             <span class="error-msg" id="email-error">Ingrese un correo electrónico válido</span>
                         </div>
 
                         <div class="input-group">
                             <label for="reg-phone">Teléfono Celular</label>
                             <input type="tel" id="reg-phone" name="phone" placeholder="Ej. 3001234567" required>
-                            <span class="error-msg" id="phone-error">Ingrese un número celular válido (mínimo 10 dígitos)</span>
+                            <span class="error-msg" id="phone-error">Ingrese un número celular válido (mínimo 10
+                                dígitos)</span>
                         </div>
 
                         <!-- Checkbox Ley 1581 -->
                         <div class="checkbox-group">
                             <input type="checkbox" id="legal-consent" name="legal-consent" required>
                             <label for="legal-consent">
-                                Acepto la <a href="politica-privacidad.html" target="_blank">Política de Tratamiento de Datos Personales</a> bajo la Ley 1581 de 2012 de Colombia.
+                                Acepto la <a href="politica-privacidad.html" target="_blank">Política de Tratamiento de
+                                    Datos Personales</a> bajo la Ley 1581 de 2012 de Colombia.
                             </label>
                         </div>
-                        <span class="error-msg" id="consent-error">Debe aceptar el tratamiento de datos para registrarse</span>
+                        <span class="error-msg" id="consent-error">Debe aceptar el tratamiento de datos para
+                            registrarse</span>
 
                         <button type="submit" id="btn-submit-registration" class="btn-primary">
                             Registrarme Ahora
@@ -148,7 +162,9 @@
                         <!-- El script inyectará el botón oficial dentro de este contenedor -->
                         <div id="google-login-button"></div>
                         <p class="google-legal-notice">
-                            Al registrarte con tu cuenta de Google, autorizas el tratamiento de tus datos personales conforme a nuestra <a href="politica-privacidad.html" target="_blank">Política de Privacidad</a>.
+                            Al registrarte con tu cuenta de Google, autorizas el tratamiento de tus datos personales
+                            conforme a nuestra <a href="politica-privacidad.html" target="_blank">Política de
+                                Privacidad</a>.
                         </p>
                     </div>
                 </div>
@@ -196,7 +212,9 @@
             <div class="cookie-text">
                 <h3>Uso de Cookies y Privacidad</h3>
                 <p>
-                    Utilizamos cookies analíticas y publicitarias propias y de terceros (Google Analytics y Meta Pixel) para optimizar su experiencia de usuario. Obtenga más información leyendo nuestra <a href="politica-cookies.html" target="_blank">Política de Cookies</a>.
+                    Utilizamos cookies analíticas y publicitarias propias y de terceros (Google Analytics y Meta Pixel)
+                    para optimizar su experiencia de usuario. Obtenga más información leyendo nuestra <a
+                        href="politica-cookies.html" target="_blank">Política de Cookies</a>.
                 </p>
             </div>
             <div class="cookie-actions">
@@ -209,9 +227,9 @@
     <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
-            <p>&copy; 2026 Agentes.AI. Todos los derechos reservados.</p>
+            <p>&copy; </p>
             <nav class="footer-nav">
-                <a href="politica-privacidad.html" target="_blank">Tratamiento de Datos (Ley 1581)</a> | 
+                <a href="politica-privacidad.html" target="_blank">Tratamiento de Datos (Ley 1581)</a> |
                 <a href="politica-cookies.html" target="_blank">Política de Cookies</a>
             </nav>
         </div>
@@ -220,4 +238,5 @@
     <!-- Archivo JS -->
     <script src="js/app.js"></script>
 </body>
+
 </html>
