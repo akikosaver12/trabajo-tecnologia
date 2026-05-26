@@ -299,9 +299,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
             console.log("[Google OAuth] Inicializando Google Identity Services...");
 
-            // Inicializar el SDK de Google con un Client ID de pruebas para localhost
+            // Inicializar el SDK de Google con el Client ID proporcionado
             google.accounts.id.initialize({
-                client_id: "1008671549463-mockclientid.apps.googleusercontent.com", // Client ID de demostración
+                client_id: "AIzaSyBqjFC5msGh1yof7mzZNWdl4IS7Gd716VE", // Credencial de Google proporcionada
                 callback: window.handleCredentialResponse
             });
 
