@@ -22,6 +22,7 @@ alter table public.registrados enable row level security;
 -- 3. Crear Políticas de Seguridad RLS
 
 -- Política A: Permitir a CUALQUIERA (público / anon) insertar registros (registro al webinar)
+drop policy if exists "Permitir inserciones públicas" on public.registrados;
 create policy "Permitir inserciones públicas"
 on public.registrados
 for insert

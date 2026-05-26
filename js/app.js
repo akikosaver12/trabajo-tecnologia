@@ -8,8 +8,8 @@
 // Configuración de Credenciales de Supabase
 // Puedes configurar estas variables en un script previo o reemplazarlas con tus datos reales de Supabase.
 const SUPABASE_CONFIG = {
-    url: window.ENV?.SUPABASE_URL || "https://YOUR_SUPABASE_PROJECT_ID.supabase.co",
-    anonKey: window.ENV?.SUPABASE_ANON_KEY || "YOUR_SUPABASE_ANON_KEY"
+    url: window.ENV?.SUPABASE_URL || "https://pluqtvoawvarkuuqxrnm.supabase.co",
+    anonKey: window.ENV?.SUPABASE_ANON_KEY || "sb_publishable_oiYUiD4d2RT13YazdN-29w_39CiohFv"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const successCard = document.getElementById("success-card");
     const webinarForm = document.getElementById("webinar-form");
     const btnReset = document.getElementById("btn-reset-form");
-    
+
     // Perfil de Usuario en Éxito
     const userAvatar = document.getElementById("user-avatar");
     const userDisplayName = document.getElementById("user-display-name");
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // 1. BANNER DE COOKIES & CUMPLIMIENTO LEGAL
     // ==========================================
-    
+
     const checkCookieConsent = () => {
         const consent = localStorage.getItem("cookieConsent");
         if (!consent) {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const loadAnalyticsScripts = () => {
         console.log("[Legal & Compliance] Cargando scripts analíticos y píxeles de seguimiento...");
-        
+
         // Simulación de inyección de Google Analytics
         const gaScript = document.createElement("script");
         gaScript.text = "console.log('Google Analytics inicializado de forma segura.');";
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.handleCredentialResponse = (response) => {
         console.log("[Google OAuth] Credencial recibida exitosamente de Google.");
-        
+
         try {
             // Decodificar el Payload del JWT de forma segura (Base64 URL Decoder en Cliente)
             const credentialToken = response.credential;
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     userDisplayName.textContent = userName;
                     userDisplayEmail.textContent = userEmail;
                     userAvatar.src = userPicUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
-                    
+
                     registrationMethodBadge.textContent = "Cuenta de Google";
                     registrationMethodBadge.style.backgroundColor = "rgba(99, 102, 241, 0.15)";
                     registrationMethodBadge.style.color = "var(--color-primary)";
@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Verificar si la biblioteca de Google se ha cargado en el navegador
         if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
             console.log("[Google OAuth] Inicializando Google Identity Services...");
-            
+
             // Inicializar el SDK de Google con un Client ID de pruebas para localhost
             google.accounts.id.initialize({
                 client_id: "1008671549463-mockclientid.apps.googleusercontent.com", // Client ID de demostración
@@ -308,8 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Renderizar el botón oficial con un estilo oscuro acorde a la interfaz
             google.accounts.id.renderButton(
                 document.getElementById("google-login-button"),
-                { 
-                    theme: "filled_black", 
+                {
+                    theme: "filled_black",
                     size: "large",
                     text: "signup_with",
                     shape: "pill",
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // 5. RESETEAR FORMULARIO (OTRO REGISTRO)
     // ==========================================
-    
+
     btnReset.addEventListener("click", () => {
         successCard.classList.add("hidden");
         registrationCard.classList.remove("hidden");
